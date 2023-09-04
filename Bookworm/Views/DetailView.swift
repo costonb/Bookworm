@@ -34,11 +34,17 @@ struct DetailView: View {
                 .font(.title)
                 .foregroundColor(.secondary)
             
+            HStack {
+                Text("Review Date: \((book.date ?? Date.now)!.formatted(date: .abbreviated, time: .omitted))")
+                    .underline()
+                Spacer()
+            }
+            .padding([.leading, .trailing, .top])
             Text(book.review ?? "No review")
-                .padding()
-            
-            RatingView(rating: .constant(Int(book.rating)))
-                .font(.largeTitle)
+                .padding([.leading, .trailing, .bottom])
+                    
+                    RatingView(rating: .constant(Int(book.rating)))
+                        .font(.largeTitle)
         }
         .navigationTitle(book.title ?? "Unknown Book")
         .navigationBarTitleDisplayMode(.inline)
@@ -74,7 +80,8 @@ struct DetailView_Previews: PreviewProvider {
         book.author = "Test Author"
         book.genre = "LitRPG"
         book.rating = 4
-        book.review = "This was a great book; I really enjoyed it."
+        book.review = "This was a great book; I really enjoyed it. I also want to pad out this review by quite a bit to see what it looks like with long text"
+        book.date = Date.now
         
         return NavigationView {
             DetailView(book: book)

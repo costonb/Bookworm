@@ -29,6 +29,7 @@ struct ContentView: View {
                             VStack(alignment: .leading) {
                                 Text(book.title ?? "Unknown Title")
                                     .font(.headline)
+                                    .foregroundColor(titleColor(book))
                                 Text(book.author ?? "Unknown Author")
                                     .foregroundColor(.secondary)
                             }
@@ -64,6 +65,18 @@ struct ContentView: View {
         }
         
         try? moc.save()
+    }
+    
+    func titleColor(_ book: Book) -> Color {
+        if book.rating == 1 {
+            return .red
+        }
+        
+        if book.rating == 5 {
+            return .green
+        }
+        
+        return .primary
     }
 }
 

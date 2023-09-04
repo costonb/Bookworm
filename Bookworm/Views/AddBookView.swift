@@ -14,7 +14,7 @@ struct AddBookView: View {
     @State private var title = ""
     @State private var author = ""
     @State private var rating = 3
-    @State private var genre = ""
+    @State private var genre = "Kids"
     @State private var review = ""
     
     let genres = ["Fantasy", "LitRPG", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
@@ -45,6 +45,7 @@ struct AddBookView: View {
                         saveBook()
                     }
                 }
+                .disabled(!validBookData())
             }
             .navigationTitle("Add Book")
         }
@@ -53,6 +54,7 @@ struct AddBookView: View {
     func saveBook() {
         let newBook = Book(context: moc)
         newBook.id = UUID()
+        newBook.date = Date.now
         newBook.title = title
         newBook.author = author
         newBook.rating = Int16(rating)
@@ -61,6 +63,13 @@ struct AddBookView: View {
         
         try? moc.save()
         dismiss()
+    }
+    
+    func validBookData() -> Bool {
+        if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || author.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || genre.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return false
+        }
+        return true
     }
 }
 
